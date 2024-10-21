@@ -2,31 +2,36 @@ interface Sortable {
   priority: number;
 }
 
-interface Task extends Sortable {
-  id: number;
+interface Project extends Sortable {
   name: string;
-  priority: number;
+  deadline: Date;
 }
 
-const tasks: Task[] = [
-  { id: 5, name: "Handing over", priority: 5 },
-  { id: 1, name: "Debug issue", priority: 1 },
-  { id: 2, name: "Write docs", priority: 4 },
-  { id: 3, name: "Test feature", priority: 2 },
-  { id: 4, name: "Unit Testing", priority: 3 },
+const projects: Project[] = [
+  { name: "Project A", priority: 2, deadline: new Date("2023-12-31") },
+  { name: "Project B", priority: 1, deadline: new Date("2023-11-30") },
 ];
 
-function prioritySort(tasks: Task[]) {
-  let sortedTasks: Task[] = tasks.slice();
+// interface Task extends Sortable {
+//   id: number;
+//   name: string;
+//   priority: number;
+// }
 
-  if (sortedTasks.length > 0) {
-    return sortedTasks.sort(
-      (task1: Task, task2: Task) => task1.priority - task2.priority
-    );
-  } else {
-    return "No Tasks";
+// const tasks: Task[] = [
+//   { id: 5, name: "Handing over", priority: 5 },
+//   { id: 1, name: "Debug issue", priority: 1 },
+//   { id: 2, name: "Write docs", priority: 4 },
+//   { id: 3, name: "Test feature", priority: 2 },
+//   { id: 4, name: "Unit Testing", priority: 3 },
+// ];
+
+function prioritySort<T extends Sortable>(items: T[]): T[] {
+  if (!items || items.length === 0) {
+    return [];
   }
+  return [...items].sort((a, b) => a.priority - b.priority);
 }
 
-console.log(prioritySort(tasks));
-console.log("Original array", tasks);
+console.log(prioritySort(projects));
+console.log("Original array", projects);
